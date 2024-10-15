@@ -52,4 +52,12 @@ describe("/api/articles/:article_id",()=>{
             expect(body.article. article_img_url).toBe("https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700")
         })
     })
+    test("get-400response with error when passing wrong data type of Id",()=>{
+        return request(app)
+        .get("/api/articles/id")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
 })
