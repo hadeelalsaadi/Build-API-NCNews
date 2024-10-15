@@ -14,9 +14,7 @@ const getArticleById = (request,respons,next)=>{
 }
 
 const getAllArticles = (request,respons,next)=>{
-    // const {sort_by} = request.query
-    //  console.log(sort_by)
-
+   
     return fetchArticles(sort_by="created_at")
     .then((articles)=>{
      respons.status(200).send({articles})

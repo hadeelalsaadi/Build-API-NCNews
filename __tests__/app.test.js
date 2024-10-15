@@ -103,3 +103,25 @@ describe("/api/articles",()=>{
     })
 })
 
+describe("/api/articles/:article_id/comments",()=>{
+    test("GET-200 respond with an array comments for the given article_id ",()=>{
+        return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({body})=>{
+           
+            expect(body.comments.length).toBe(11)
+            body.comments.forEach((comment)=>{
+                expect(typeof comment.comment_id).toBe("number")
+                expect(typeof comment.votes).toBe("number")
+                expect(typeof comment.created_at).toBe("string")
+                expect(typeof comment.author).toBe("string")
+                expect(typeof comment.body).toBe("string")
+                expect(typeof comment.article_id).toBe("number")
+
+            })
+            
+
+        })
+    })
+})
