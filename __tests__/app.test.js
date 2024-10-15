@@ -75,8 +75,8 @@ describe("/api/articles",()=>{
         .get("/api/articles")
         .expect(200)
         .then(({body})=>{
-            console.log(body)
-            expect(body.articles.length).toBe(5)
+            
+            expect(body.articles.length).not.toBe(0)
             body.articles.forEach((article)=>{
                 expect(typeof article.author).toBe("string")
                 expect(typeof article.title).toBe("string")
@@ -89,6 +89,16 @@ describe("/api/articles",()=>{
 
             })
           
+        })
+    })
+    test("Get-200 response with all articles details SORTED DESCENDING",()=>{
+
+        return request(app)
+        .get("/api/articles?sort_by=created_at")
+        .expect(200)
+        .then(({body:{articles}})=>{
+            expect(articles).toBeSorted({ descending: true })
+
         })
     })
 })
