@@ -10,4 +10,21 @@ const fetchArticleById = (article)=>{
     })
 
 }
-module.exports= fetchArticleById
+
+const fetchArticles=()=>{
+    return db.query(`SELECT 
+        articles.author, articles.title, articles.article_id, articles.created_at , articles.topic, articles.votes,articles.article_img_url,
+        COUNT(comments.article_id) As comment_count 
+        FROM articles
+        JOIN comments ON articles.article_id = comments.article_id 
+        GROUP BY articles.article_id;`)
+       .then(({rows})=>{
+     return rows
+    }).catch((err)=>{
+        console.log(err);
+
+        
+    })
+}
+
+module.exports= {fetchArticleById,fetchArticles}
