@@ -5,9 +5,9 @@ const seed = require("../db/seeds/seed.js")
 const data = require("../db/data/test-data/index.js")
 const endpoints= require("../endpoints.json")
  
-beforeEach(()=>{seed(data)})
-afterAll(()=>{ 
-    db.end()
+beforeEach(()=>{ return seed(data)})
+ afterAll(()=>{ 
+     return db.end()
 })
 describe("/api",()=>{
     test("Get-200-respond with an object gives all availabe endpoints details",()=>{ 
