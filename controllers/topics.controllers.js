@@ -7,4 +7,5 @@ const getTopics = (request,respons,next)=>{
     respons.status(200).send({topics: topics})
 })
 }
+
 module.exports= getTopics

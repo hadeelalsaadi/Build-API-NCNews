@@ -36,3 +36,36 @@ describe("/api/topics",()=>{
     })
    
 })
+describe("/api/articles/:article_id",()=>{
+    test("get-200 response with the correct singuler articl",()=>{
+        return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(({body})=>{
+           
+            expect(body.article.title).toBe("Living in the shadow of a great man")
+            expect(body.article.topic).toBe("mitch")
+            expect(body.article.author).toBe("butter_bridge")
+            expect(body.article.body).toBe("I find this existence challenging")
+            expect(typeof body.article.created_at).toBe("string")
+            expect(body.article.votes).toBe(100)
+            expect(body.article. article_img_url).toBe("https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700")
+        })
+    })
+    test("get-400response with error when passing wrong data type of Id",()=>{
+        return request(app)
+        .get("/api/articles/id")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+    test("get-404 response with error when passing not exist Id",()=>{
+        return request(app)
+        .get("/api/articles/999")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        })
+    })
+})
