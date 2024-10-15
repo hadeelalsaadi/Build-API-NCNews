@@ -60,4 +60,12 @@ describe("/api/articles/:article_id",()=>{
             expect(body.msg).toBe("Bad request")
         })
     })
+    test("get-404 response with error when passing not exist Id",()=>{
+        return request(app)
+        .get("/api/articles/999")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        })
+    })
 })
