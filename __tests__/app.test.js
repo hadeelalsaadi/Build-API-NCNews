@@ -154,3 +154,48 @@ describe("/api/articles/:article_id/comments",()=>{
         })
     })
 })
+describe("/api/articles/:article_id/comments",()=>{
+    test("POST-201 response with secceful massage when posted a comment",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .expect(201)
+        .send({username :"butter_bridge",
+            body: "I am just posting a comment."
+        })
+
+
+        .then(({body})=>{
+
+            const newComment = body.newComment
+            expect(newComment.body).toBe( "I am just posting a comment.")
+            expect(newComment.author).toBe("butter_bridge")
+            expect(newComment.article_id).toBe(2)
+            expect(newComment).toHaveProperty("votes")
+            expect(newComment).toHaveProperty("created_at")
+
+
+        })
+    })
+    test("POST-400 response bad request if user input number in username",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .send({
+            username :2222,
+            body: "I am just posting a invalid request"})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+    test("POST-400 response bad request if user input not data!",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .send({})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+    
+
+})
