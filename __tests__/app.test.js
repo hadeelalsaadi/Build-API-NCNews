@@ -175,4 +175,15 @@ describe("/api/articles/:article_id/comments",()=>{
 
         })
     })
+    test("POST-400 response bad request if user input number in username",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .send({
+            username :2222,
+            body: "I am just posting a invalid request"})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
 })

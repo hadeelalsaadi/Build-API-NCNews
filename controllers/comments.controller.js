@@ -26,7 +26,6 @@ const addCommentToArticle=(request, response,next)=>{
         response.status(201).send({newComment: newComment.rows[0]})
 
     }).catch((err)=>{
-       
         next(err)
     })
 
