@@ -154,3 +154,25 @@ describe("/api/articles/:article_id/comments",()=>{
         })
     })
 })
+describe("/api/articles/:article_id/comments",()=>{
+    test("POST-201 response with secceful massage when posted a comment",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .expect(201)
+        .send({username :"butter_bridge",
+            body: "I am just posting a comment."
+        })
+
+
+        .then(({body})=>{
+            const newComment = body.newComment
+            expect(newComment.body).toBe( "I am just posting a comment.")
+            expect(newComment.author).toBe("butter_bridge")
+            expect(newComment.article_id).toBe(2)
+            expect(newComment).toHaveProperty("votes")
+            expect(newComment).toHaveProperty("created_at")
+
+
+        })
+    })
+})
