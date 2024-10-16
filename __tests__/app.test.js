@@ -165,6 +165,7 @@ describe("/api/articles/:article_id/comments",()=>{
 
 
         .then(({body})=>{
+
             const newComment = body.newComment
             expect(newComment.body).toBe( "I am just posting a comment.")
             expect(newComment.author).toBe("butter_bridge")
@@ -186,4 +187,15 @@ describe("/api/articles/:article_id/comments",()=>{
             expect(body.msg).toBe("Bad request")
         })
     })
+    test("POST-400 response bad request if user input not data!",()=>{
+        return request(app)
+        .post("/api/articles/2/comments")
+        .send({})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+    
+
 })

@@ -32,7 +32,7 @@ app.use((err,request, response,next)=>{
 })
 
 app.use((err,request, response,next)=>{
-    if(err.code=== "22P02" || err.code === "23503"){
+    if(err.code=== "22P02" || err.code === "23503" || err.code === "23502"){
         response.status(400).send({msg: "Bad request"})
     }
     next(err)
@@ -41,7 +41,7 @@ app.use((err,request, response,next)=>{
 
 
 app.use((err,request, response,next)=>{
-    //console.log(err.stack)
+ 
     response.status(500).send({msg: "internal server Error"})
 })
 
