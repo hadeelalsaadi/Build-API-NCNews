@@ -38,6 +38,7 @@ app.use((err,request, response,next)=>{
 
 
 app.use((err,request, response,next)=>{
+    console.log(err.stack)
     response.status(500).send({msg: "internal server Error"})
 })
 
