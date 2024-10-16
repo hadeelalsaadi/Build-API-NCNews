@@ -103,3 +103,54 @@ describe("/api/articles",()=>{
     })
 })
 
+describe("/api/articles/:article_id/comments",()=>{
+    test("GET-200 respond with an array comments for the given article_id ",()=>{
+        return request(app)
+        .get("/api/articles/1/comments")
+        .expect(200)
+        .then(({body})=>{
+           
+            expect(body.comments.length).toBe(11)
+            body.comments.forEach((comment)=>{
+                expect(typeof comment.comment_id).toBe("number")
+                expect(typeof comment.votes).toBe("number")
+                expect(typeof comment.created_at).toBe("string")
+                expect(typeof comment.author).toBe("string")
+                expect(typeof comment.body).toBe("string")
+                expect(typeof comment.article_id).toBe("number")
+
+            })
+            
+
+        })
+    })
+    test("GET-400 response with bad request when passed in invalid data type",()=>{
+        return request(app)
+        .get("/api/articles/banana/comments")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+ 
+        })
+    })
+    test("GET-404 response if passed in an Id that is not exist",()=>{
+
+        return request(app)
+        .get("/api/articles/9999/comments")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+ 
+        })
+    })
+    test("GET-200 response with empty arry when passed an id that exsit in article but no comments related ",()=>{
+        return request(app)
+        .get("/api/articles/2/comments")
+        .expect(200)
+        .then(({body})=>{
+            expect(Array.isArray(body.comments)).toBe(true)
+            expect(body.comments.length).toBe(0)
+ 
+        })
+    })
+})

@@ -50,7 +50,26 @@
 
     }
    
+  },
+  "GET /api/articles/:article_id/comments":{
+     "description": "get array of all comments for an article",
+     "queries": [],
+     "exampleResponse":{ 
+      "comments":[
+        {
+          "body": "What do you see? I have no idea where this will lead us. This place I speak of, is known as the Black Lodge.",
+          "votes": 16,
+          "author": "icellusedkars",
+          "article_id": 5,
+         " created_at": 1591682400000
+        }
+    ]
+
+     }
+
+
   }
+  
 
 }
 
