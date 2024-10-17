@@ -27,10 +27,14 @@ const getAllArticles = (request,respons,next)=>{
 const updateArticleById =(request,respons,next)=>{
    const incVote = request.body.inc_votes
    const article_id = request.params.article_id
+   const promises = [fetchArticleById(article_id) ,incrementVotes(article_id, incVote)]
+
    
-   incrementVotes(article_id, incVote).then((article)=>{
+   Promise.all(promises).then((result)=>{
+    const article = result[1]
     respons.status(200).send({article: article})
    }).catch((err)=>{
+   
     next(err)
    })
 

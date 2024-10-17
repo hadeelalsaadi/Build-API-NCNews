@@ -199,16 +199,18 @@ describe("/api/articles/:article_id/comments",()=>{
     
 
 })
+
+
 describe("/api/articles/:article_id",()=>{
-    test("PATCH-200 respond with the updated article",()=>{
+    test("PATCH-200 respond with the updated article increment votes by value",()=>{
         return request(app)
-        .patch("/api/articles/2")
+        .patch("/api/articles/1")
         .send({inc_votes: 3})
         .expect(200)
         .then(({body})=>{
-            expect(body.article).toHaveProperty("votes")
-            expect(body.article.article_id).toBe(2)
-            expect(typeof body.article.votes).toBe("number")
+            
+            expect(body.article.article_id).toBe(1)
+            expect(body.article.votes).toBe(103)
             expect(typeof body.article.title).toBe("string")
             expect(typeof body.article.topic).toBe("string")
             expect(typeof body.article.author).toBe("string")
@@ -218,4 +220,52 @@ describe("/api/articles/:article_id",()=>{
         })
         
     })
+
+    test("PATCH-200 respond with the updated article appending the article with votes propert with the sent value",()=>{
+        return request(app)
+        .patch("/api/articles/2")
+        .send({inc_votes: 3})
+        .expect(200)
+        .then(({body})=>{
+            expect(body.article).toHaveProperty("votes")
+            expect(body.article.article_id).toBe(2)
+            expect(body.article.votes).toBe(3)
+            
+        })
+        
+    })
+    test("PATCH-404 response with not found if article does not exist",()=>{
+        return request(app)
+        .patch("/api/articles/999")
+        .send({inc_votes: 3})
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+            
+        })
+
+    })
+    test("PATCH-400 response with bad request if user input invalid datatype",()=>{
+        return request(app)
+        .patch("/api/articles/1")
+        .send({inc_votes: "Ok"})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+            
+        })
+
+    })
+    test("PATCH-400 response with bad request if user send empty object",()=>{
+        return request(app)
+        .patch("/api/articles/2")
+        .send({})
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+            
+        })
+
+    })
+ 
 })

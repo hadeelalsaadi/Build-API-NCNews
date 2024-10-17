@@ -26,8 +26,6 @@ const fetchArticles=(sort_by="created_at")=>{
             return Promise.reject({status:404, msg: "Not found"})
         }
      return rows
-    }).catch((err)=>{
-        console.log(err);
     })
 }
  
@@ -36,11 +34,12 @@ const incrementVotes= (article_id,incVote)=>{
     return db.query(`UPDATE articles
 SET votes = votes + $1
 WHERE article_id = $2 RETURNING *;`, [incVote, article_id]).then(({rows})=>{
+   if(rows.length===0){
+   
+    return Promise.reject({status:400, msg: "Bad request"})
+   }
+  
     return rows[0]
-})
-
-.catch((err)=>{
-    console.log(err)
 })
 }
 

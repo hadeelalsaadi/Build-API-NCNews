@@ -42,7 +42,6 @@ app.use((err,request, response,next)=>{
 
 
 app.use((err,request, response,next)=>{
- 
     response.status(500).send({msg: "internal server Error"})
 })
 
