@@ -4,6 +4,11 @@ const endpoints= require("./endpoints.json")
 const getAllTopics= require("./controllers/topics.controllers.js")
 const {getArticleById,getAllArticles, updateArticleById}= require("./controllers/articles.controllers.js")
 const {getCommentsByArticleId,addCommentToArticle,deleteCommentById}= require("./controllers/comments.controller.js")
+const {getAllUsers}= require("./controllers/users.controller.js")
+
+
+
+
 app.get("/api", (requet, response)=>{
     response.status(200).send({endpoints: endpoints})
 })
@@ -16,8 +21,9 @@ app.use(express.json())
 app.post("/api/articles/:article_id/comments", addCommentToArticle)
 app.patch("/api/articles/:article_id", updateArticleById)
 app.delete("/api/comments/:comment_id", deleteCommentById)
+app.get("/api/users", getAllUsers)
 
-app.all("api/*",(request,response, next)=>{
+app.all("/api/*",(request,response, next)=>{
     return response.status(404).send({msg: "invalid input"})
     
 })

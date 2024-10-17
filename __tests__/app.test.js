@@ -293,3 +293,28 @@ describe("/api/comments/:comment_id",()=>{
         })
     })
 })
+describe("/api/users",()=>{
+    test("GET-200 response with all users details",()=>{
+        return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({body})=>{
+            
+            body.users.forEach((user)=>{
+                expect(typeof user.username).toBe("string")
+                expect(typeof user.name).toBe("string")
+                expect(typeof user. avatar_url).toBe("string")
+
+            })
+           
+        })
+    })
+    test("GET-404 response with not found if user request table not exist",()=>{
+        return request(app)
+        .get("/api/user")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("invalid input")
+        })
+    })
+})
