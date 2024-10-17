@@ -269,3 +269,27 @@ describe("/api/articles/:article_id",()=>{
     })
  
 })
+describe("/api/comments/:comment_id",()=>{
+    test("DELETE-204 response with no content and delete the given comment by comment_id",()=>{
+        return request(app)
+        .delete("/api/comments/3")
+        .expect(204)
+    
+    })
+    test("DELETE-400 response with bad request if invalid data type when passing comment_id",()=>{
+        return request(app)
+        .delete("/api/comments/id")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+    test("DELETE-404 response with Not found if trying to delete comment not exist",()=>{
+        return request(app)
+        .delete("/api/comments/9999")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        })
+    })
+})

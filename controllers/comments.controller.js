@@ -1,4 +1,4 @@
-const {fetchCommentsByArticleId,creatNewComment} = require("../models/comments.model")
+const {fetchCommentsByArticleId,creatNewComment,deleteComment} = require("../models/comments.model")
 const {fetchArticleById} = require("../models/articles.model.js")
 
 
@@ -14,7 +14,6 @@ const getCommentsByArticleId= (request,response,next)=>{
 }
 
 const addCommentToArticle=(request, response,next)=>{
-
     const requestBody = request.body
     const new_Comment ={}
     new_Comment.body= requestBody.body
@@ -24,10 +23,19 @@ const addCommentToArticle=(request, response,next)=>{
   
     creatNewComment(new_Comment).then((newComment)=>{
         response.status(201).send({newComment: newComment.rows[0]})
-
     }).catch((err)=>{
         next(err)
     })
-
 }
-module.exports={ getCommentsByArticleId,addCommentToArticle}
+
+const deleteCommentById= (request, response,next)=>{
+    const {comment_id}= request.params
+    deleteComment(comment_id).then((result)=>{
+       
+        response.status(204).send(result)
+         
+    }).catch((err)=>{
+        next(err)
+    })
+}
+module.exports={ getCommentsByArticleId,addCommentToArticle,deleteCommentById}
