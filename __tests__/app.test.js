@@ -199,3 +199,23 @@ describe("/api/articles/:article_id/comments",()=>{
     
 
 })
+describe("/api/articles/:article_id",()=>{
+    test("PATCH-200 respond with the updated article",()=>{
+        return request(app)
+        .patch("/api/articles/2")
+        .send({inc_votes: 3})
+        .expect(200)
+        .then(({body})=>{
+            expect(body.article).toHaveProperty("votes")
+            expect(body.article.article_id).toBe(2)
+            expect(typeof body.article.votes).toBe("number")
+            expect(typeof body.article.title).toBe("string")
+            expect(typeof body.article.topic).toBe("string")
+            expect(typeof body.article.author).toBe("string")
+            expect(typeof body.article.body).toBe("string")
+            expect(typeof body.article.created_at).toBe("string")
+            expect(typeof body.article.article_img_url).toBe("string")
+        })
+        
+    })
+})
