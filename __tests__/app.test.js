@@ -70,13 +70,13 @@ describe("/api/articles/:article_id",()=>{
     })
 })
 describe("/api/articles",()=>{
-    test("Get-200 response with all articles details without body",()=>{
+    test("Get-200 response with all articles details without body and sorted,defualt by created_at and desc",()=>{
         return request(app)
         .get("/api/articles")
         .expect(200)
         .then(({body})=>{
             
-            expect(body.articles.length).not.toBe(0)
+            expect(body.articles.length).toBe(13)
             body.articles.forEach((article)=>{
                 expect(typeof article.author).toBe("string")
                 expect(typeof article.title).toBe("string")
@@ -91,17 +91,39 @@ describe("/api/articles",()=>{
           
         })
     })
-    test("Get-200 response with all articles details SORTED DESCENDING",()=>{
+    test("Get-200 response with all articles details SORTED BY  by title column",()=>{
 
         return request(app)
-        .get("/api/articles?sort_by=created_at")
+        .get("/api/articles?sort_by=title")
         .expect(200)
-        .then(({body:{articles}})=>{
-            expect(articles).toBeSorted({ descending: true })
+        .then(({body})=>{
+            expect(body.articles).toBeSorted({ key:"title",
+                descending: true })
+        })
+    })
+    test("Get-200 response with all articles details SORTED BY the defualt column in ascending order",()=>{
 
+        return request(app)
+        .get("/api/articles?order=asc")
+        .expect(200)
+        .then(({body})=>{
+           
+            expect(body.articles).toBeSortedBy("created_at")
+        })
+    })
+    test("Get-200 response with all articles details SORTED BY queries",()=>{
+
+        return request(app)
+        .get("/api/articles?sort_by=title&order=asc")
+        .expect(200)
+        .then(({body})=>{
+            expect(body.articles).toBeSortedBy("title")
         })
     })
 })
+
+
+
 
 describe("/api/articles/:article_id/comments",()=>{
     test("GET-200 respond with an array comments for the given article_id ",()=>{
