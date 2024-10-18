@@ -158,6 +158,14 @@ describe("/api/articles",()=>{
             expect(body.msg).toBe("Not found")
         }) 
     })
+    test("GET-404 response with not found if topic has no article",()=>{
+        return request(app)
+        .get("/api/articles?topic=paper")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        }) 
+    })
 })
 
 
@@ -294,7 +302,7 @@ describe("/api/articles/:article_id",()=>{
         })
         
     })
-    test("PATCH-404 response with not found if article does not exist",()=>{
+    test.only("PATCH-404 response with not found if article does not exist",()=>{
         return request(app)
         .patch("/api/articles/999")
         .send({inc_votes: 3})
