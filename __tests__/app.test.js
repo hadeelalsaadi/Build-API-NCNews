@@ -302,7 +302,7 @@ describe("/api/articles/:article_id",()=>{
         })
         
     })
-    test.only("PATCH-404 response with not found if article does not exist",()=>{
+    test("PATCH-404 response with not found if article does not exist",()=>{
         return request(app)
         .patch("/api/articles/999")
         .send({inc_votes: 3})
