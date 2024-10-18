@@ -42,7 +42,7 @@ describe("/api/articles/:article_id",()=>{
         .get("/api/articles/1")
         .expect(200)
         .then(({body})=>{
-           
+           expect(body.article).toHaveProperty("comment_count")
             expect(body.article.title).toBe("Living in the shadow of a great man")
             expect(body.article.topic).toBe("mitch")
             expect(body.article.author).toBe("butter_bridge")
@@ -52,7 +52,7 @@ describe("/api/articles/:article_id",()=>{
             expect(body.article. article_img_url).toBe("https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700")
         })
     })
-    test("get-400response with error when passing wrong data type of Id",()=>{
+    test("get-400 response with error when passing wrong data type of Id",()=>{
         return request(app)
         .get("/api/articles/id")
         .expect(400)
@@ -68,6 +68,8 @@ describe("/api/articles/:article_id",()=>{
             expect(body.msg).toBe("Not found")
         })
     })
+
+
 })
 describe("/api/articles",()=>{
     test("Get-200 response with all articles details without body and sorted,defualt by created_at and desc",()=>{
@@ -146,11 +148,22 @@ describe("/api/articles",()=>{
         .expect(200)
         .then(({body})=>{
             expect(body.articles.length).toBe(12)
+           body.articles.forEach((article)=>{
+            expect(article.topic).toBe("mitch")
+           })
         })
     })
     test("GET-404 response with not found if topic does not exsit",()=>{
         return request(app)
         .get("/api/articles?topic=itch")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        }) 
+    })
+    test("GET-404 response with not found if topic has no article",()=>{
+        return request(app)
+        .get("/api/articles?topic=paper")
         .expect(404)
         .then(({body})=>{
             expect(body.msg).toBe("Not found")
