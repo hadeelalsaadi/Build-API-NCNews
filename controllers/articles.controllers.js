@@ -14,8 +14,9 @@ const getArticleById = (request,respons,next)=>{
 }
 
 const getAllArticles = (request,respons,next)=>{
+    const {sort_by, order}= request.query
    
-    return fetchArticles(sort_by="created_at")
+    return fetchArticles(sort_by, order)
     .then((articles)=>{
      respons.status(200).send({articles})
    
@@ -24,6 +25,9 @@ const getAllArticles = (request,respons,next)=>{
     })
    
    }
+
+
+
 const updateArticleById =(request,respons,next)=>{
    const incVote = request.body.inc_votes
    const article_id = request.params.article_id

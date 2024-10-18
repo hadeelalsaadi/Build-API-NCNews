@@ -11,15 +11,19 @@ const fetchArticleById = (article)=>{
 
 }
 
-const fetchArticles=(sort_by="created_at")=>{
-   
+const fetchArticles=(sort_by="created_at",order= "desc")=>{
+    const validSortBy = ["title", "created_at", "topic"]
+    if (!validSortBy.includes(sort_by)){
+        return Promise.reject({status: 400, msg:"Bad request" })
+    }
+    
     return db.query(`SELECT 
         articles.author, articles.title, articles.article_id, articles.created_at , articles.topic, articles.votes,articles.article_img_url,
         COUNT(comments.article_id) As comment_count 
         FROM articles
-        JOIN comments ON articles.article_id = comments.article_id 
-        GROUP BY articles.article_id 
-         ORDER BY articles.${sort_by} DESC;`)
+         LEFT JOIN comments ON articles.article_id = comments.article_id 
+         GROUP BY articles.article_id 
+         ORDER BY articles.${sort_by} ${order};`)
     
        .then(({rows})=>{
         if(rows.length===0){
@@ -27,6 +31,7 @@ const fetchArticles=(sort_by="created_at")=>{
         }
      return rows
     })
+  
 }
  
 
