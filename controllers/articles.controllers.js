@@ -2,6 +2,11 @@ const {fetchArticleById,fetchArticles, incrementVotes}  = require("../models/art
 
 
 
+
+
+
+
+
 const getArticleById = (request,respons,next)=>{
     const {article_id}= request.params;
     return fetchArticleById(article_id).then((article)=>{
@@ -12,6 +17,10 @@ const getArticleById = (request,respons,next)=>{
     })
 
 }
+
+
+
+
 
 const getAllArticles = (request,respons,next)=>{
     const {sort_by, order,topic}= request.query
