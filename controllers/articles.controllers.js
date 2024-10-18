@@ -14,9 +14,8 @@ const getArticleById = (request,respons,next)=>{
 }
 
 const getAllArticles = (request,respons,next)=>{
-    const {sort_by, order}= request.query
-   
-    return fetchArticles(sort_by, order)
+    const {sort_by, order,topic}= request.query
+    return fetchArticles(sort_by, order,topic)
     .then((articles)=>{
      respons.status(200).send({articles})
    
