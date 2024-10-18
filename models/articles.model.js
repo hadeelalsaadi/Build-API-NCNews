@@ -11,7 +11,7 @@ const fetchArticleById = (article)=>{
 
 }
 
-const fetchArticles=(sort_by="created_at",order= "desc")=>{
+const fetchArticles=(sort_by="created_at",order= "desc", topic)=>{
     const validSortBy = ["title", "created_at", "topic"]
     if (!validSortBy.includes(sort_by)){
         return Promise.reject({status: 400, msg:"Bad request" })
@@ -26,6 +26,16 @@ const fetchArticles=(sort_by="created_at",order= "desc")=>{
          ORDER BY articles.${sort_by} ${order};`)
     
        .then(({rows})=>{
+        
+        if(topic){
+            
+            const filteredRows = rows.filter((row)=> row.topic===topic)
+            if(filteredRows.length===0){
+                return Promise.reject({status:404, msg: "Not found"})
+            }
+           return filteredRows
+
+        }
         if(rows.length===0){
             return Promise.reject({status:404, msg: "Not found"})
         }

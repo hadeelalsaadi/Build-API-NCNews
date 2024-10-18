@@ -39,7 +39,7 @@ app.use((err,request, response,next)=>{
 })
 
 app.use((err,request, response,next)=>{
-    if(err.code=== "22P02" || err.code === "23503" || err.code === "23502"){
+    if(err.code=== "22P02" || err.code === "23503" || err.code === "23502" || err.code==='42601'){
         response.status(400).send({msg: "Bad request"})
     }
     next(err)

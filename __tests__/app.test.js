@@ -91,7 +91,7 @@ describe("/api/articles",()=>{
           
         })
     })
-    test("Get-200 response with all articles details SORTED BY  by title column",()=>{
+    test("Get-200 response with all articles details SORTED BY  by title column in defualt dscending order",()=>{
 
         return request(app)
         .get("/api/articles?sort_by=title")
@@ -119,6 +119,42 @@ describe("/api/articles",()=>{
         .then(({body})=>{
             expect(body.articles).toBeSortedBy("title")
         })
+    })
+    test("Get-400 response with bad request if passed in invalid sort_by",()=>{
+
+        return request(app)
+        .get("/api/articles?sort_by=anything&order=asc")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+
+    test("Get-400 response with bad request if passed in invalid order",()=>{
+
+        return request(app)
+        .get("/api/articles?sort_by=title&order=asec")
+        .expect(400)
+        .then(({body})=>{
+            expect(body.msg).toBe("Bad request")
+        })
+    })
+
+    test("GET-200 response with articles filterd by topic",()=>{
+        return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then(({body})=>{
+            expect(body.articles.length).toBe(12)
+        })
+    })
+    test("GET-404 response with not found if topic does not exsit",()=>{
+        return request(app)
+        .get("/api/articles?topic=itch")
+        .expect(404)
+        .then(({body})=>{
+            expect(body.msg).toBe("Not found")
+        }) 
     })
 })
 
