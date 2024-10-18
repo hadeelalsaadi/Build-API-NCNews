@@ -148,6 +148,9 @@ describe("/api/articles",()=>{
         .expect(200)
         .then(({body})=>{
             expect(body.articles.length).toBe(12)
+           body.articles.forEach((article)=>{
+            expect(article.topic).toBe("mitch")
+           })
         })
     })
     test("GET-404 response with not found if topic does not exsit",()=>{
