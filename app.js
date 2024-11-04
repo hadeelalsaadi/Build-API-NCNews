@@ -7,7 +7,7 @@ const {getArticleById,getAllArticles, updateArticleById}= require("./controllers
 const {getCommentsByArticleId,addCommentToArticle,deleteCommentById}= require("./controllers/comments.controller.js")
 const {getAllUsers}= require("./controllers/users.controller.js")
 
-
+app.use(cors());
 
 
 app.get("/api", (requet, response)=>{
@@ -23,7 +23,8 @@ app.post("/api/articles/:article_id/comments", addCommentToArticle)
 app.patch("/api/articles/:article_id", updateArticleById)
 app.delete("/api/comments/:comment_id", deleteCommentById)
 app.get("/api/users", getAllUsers)
-app.use(cors());
+
+
 
 app.all("/api/*",(request,response, next)=>{
     return response.status(404).send({msg: "invalid input"})
