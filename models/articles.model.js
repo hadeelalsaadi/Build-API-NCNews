@@ -29,7 +29,7 @@ const fetchArticleById = (article)=>{
 
 
 const fetchArticles=(sort_by="created_at",order= "desc", topic)=>{
-    const validSortBy = ["title", "created_at", "topic"]
+    const validSortBy = ["title", "created_at", "topic", "comment_count", "votes"]
     if (!validSortBy.includes(sort_by)){
         return Promise.reject({status: 400, msg:"Bad request" })
     }
